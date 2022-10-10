@@ -60,18 +60,15 @@ it('can call `find` on the Coles driver and handle a successful response', funct
         ->description->toBe('Succulent chunk style tuna in an olive oil blend.')
         ->ingredients->toBe('Purse seine caught skipjack *tuna* (Katsuwonus pelamis) (65%), water, olive oil (10%), sunflower oil, salt. *Contains fish.*')
         ->price->amount->toBe(1.35)
+        ->price->currency->toBe(Currency::AUD)
         ->unitAmount->unit->value->toBe('g')
         ->unitAmount->amount->toBe(95.0)
         ->unitPrice->unitAmount->unit->value->toBe('kg')
         ->unitPrice->unitAmount->amount->toBe(1.0)
         ->unitPrice->price->amount->toBe(14.21)
-        ->unitPrice->price->currency->toBe(Currency::AUD)
         ->brand->name->toBe('John West')
         ->images->toBe([
-            'https://cdn0.coles.media/content/wowproductimages/large/257360.jpg',
-            'https://cdn0.coles.media/content/wowproductimages/large/257360_1.jpg',
-            'https://cdn0.coles.media/content/wowproductimages/large/257360_2.jpg',
-            'https://cdn0.coles.media/content/wowproductimages/large/257360_5.jpg',
-            'https://cdn0.coles.media/content/wowproductimages/large/257360_6.jpg',
+            'https://shop.coles.com.au/wcsstore/Coles-CAS/images/5/5/5/5558736.jpg',
+            'https://shop.coles.com.au/wcsstore/Coles-CAS/images/5/5/5/5558736_B.jpg',
         ]);
 });
