@@ -16,7 +16,6 @@ use ProductTrap\DTOs\UnitAmount;
 use ProductTrap\DTOs\UnitPrice;
 use ProductTrap\Enums\Currency;
 use ProductTrap\Enums\Status;
-use ProductTrap\Enums\Unit;
 use ProductTrap\Exceptions\ProductTrapDriverException;
 use ProductTrap\Traits\DriverCache;
 use ProductTrap\Traits\DriverCrawler;
@@ -37,7 +36,7 @@ class ColesAustralia implements Driver
 
     public function getName(): string
     {
-        return static::IDENTIFIER;
+        return 'Coles Australia';
     }
 
     private function getTextBetween(string $startNeedle, string $endNeedle, string $html): string

@@ -32,7 +32,7 @@ it('can add the Coles driver to ProductTrap', function () {
 });
 
 it('can call the ProductTrap facade', function () {
-    expect(FacadesProductTrap::driver(ColesAustralia::IDENTIFIER)->getName())->toBe(ColesAustralia::IDENTIFIER);
+    expect(FacadesProductTrap::driver(ColesAustralia::IDENTIFIER)->getName())->toBe('Coles Australia');
 });
 
 it('can retrieve the Coles driver from ProductTrap', function () {
@@ -43,7 +43,7 @@ it('can call `find` on the Coles driver and handle failed connection', function 
     getMockColes($this->app, '');
 
     $this->app->make(Factory::class)->driver(ColesAustralia::IDENTIFIER)->find('abc123');
-})->throws(ApiConnectionFailedException::class, 'The connection to https://coles.com.au/shop/productdetails/abc123 has failed for the Coles driver');
+})->throws(ApiConnectionFailedException::class, 'The connection to https://shop.coles.com.au/a/national/product/abc123 has failed for the Coles Australia driver');
 
 it('can call `find` on the Coles driver and handle a successful response', function () {
     $html = file_get_contents(__DIR__.'/../fixtures/successful_response.html');
