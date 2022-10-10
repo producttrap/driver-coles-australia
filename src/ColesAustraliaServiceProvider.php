@@ -18,8 +18,6 @@ class ColesAustraliaServiceProvider extends ServiceProvider
         $factory = $this->app->make(Factory::class);
 
         $factory->extend(ColesAustralia::IDENTIFIER, function () {
-            /** @var ConfigRepository $config */
-            $config = $this->app->make(ConfigRepository::class);
             /** @var CacheRepository $cache */
             $cache = $this->app->make(CacheRepository::class);
 

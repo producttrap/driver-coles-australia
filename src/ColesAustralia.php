@@ -9,12 +9,12 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use ProductTrap\Contracts\Driver;
 use ProductTrap\DTOs\Brand;
-use ProductTrap\DTOs\Currency;
 use ProductTrap\DTOs\Price;
 use ProductTrap\DTOs\Product;
 use ProductTrap\DTOs\Results;
 use ProductTrap\DTOs\UnitAmount;
 use ProductTrap\DTOs\UnitPrice;
+use ProductTrap\Enums\Currency;
 use ProductTrap\Enums\Status;
 use ProductTrap\Enums\Unit;
 use ProductTrap\Exceptions\ProductTrapDriverException;
@@ -98,6 +98,9 @@ class ColesAustralia implements Driver
             identifier: $brandName,
         ) : null;
 
+        // Currency
+        $currency = Currency::tryFrom($jsonld['offers']['priceCurrency'] ?? null) ?? Currency::AUD;
+
         // Price
         $price = null;
         try {
@@ -116,13 +119,9 @@ class ColesAustralia implements Driver
             ? new Price(
                 amount: $price,
                 wasAmount: $wasPrice ?? null,
+                currency: $currency,
             )
             : null;
-
-        // Currency
-        $currency = new Currency(
-            code: $jsonld['offers']['priceCurrency'] ?? 'AUD',
-        );
 
         // Images
         $images = [];
@@ -162,16 +161,17 @@ class ColesAustralia implements Driver
 
         // Ingredients
         $ingredients = isset($additional['ingredients']) ? strip_tags($additional['ingredients']) : null;
-            // ? Str::of(
-            //     $crawler->filter('.ingredients .viewMore .viewMore-content')->first()->text()
-            // )->trim()->toString()
-            // : null;
+        if (empty($ingredients)) {
+            $ingredients = $crawler->filter('.long-desc-container')->count()
+                ? Str::of($crawler->filter('.long-desc-container')->first()->text())->trim()->toString()
+                : null;
+        }
 
         // Unit Amount (e.g. 85g or 1kg)
         $unitAmount = UnitAmount::parse($additional['size'] ?? $title);
 
         // Unit Price (e.g. $2 per kg)
-        $unitPrice = $additional['unit_price'];
+        $unitPrice = $additional['unit_price'] ?? null;
         // $unitPrice = $crawler->filter('.shelfProductTile-cupPrice')->count()
         //     ? Str::of(
         //         $crawler->filter('.shelfProductTile-cupPrice')->first()->text()
@@ -181,6 +181,7 @@ class ColesAustralia implements Driver
             price: $price,
             unitAmount: $unitAmount,
             unitPrice: $unitPrice,
+            currency: $currency,
         );
 
         // URL
@@ -193,7 +194,6 @@ class ColesAustralia implements Driver
             'description' => $description,
             'url' => $url,
             'price' => $price,
-            'currency' => $currency,
             'status' => $status,
             'brand' => $brand,
             'gtin' => $gtin,

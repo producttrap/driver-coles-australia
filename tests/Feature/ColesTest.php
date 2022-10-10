@@ -10,6 +10,7 @@ use ProductTrap\Facades\ProductTrap as FacadesProductTrap;
 use ProductTrap\ProductTrap;
 use ProductTrap\Spider;
 use ProductTrap\ColesAustralia\ColesAustralia;
+use ProductTrap\Enums\Currency;
 
 function getMockColes($app, string $response): void
 {
@@ -41,29 +42,30 @@ it('can retrieve the Coles driver from ProductTrap', function () {
 it('can call `find` on the Coles driver and handle failed connection', function () {
     getMockColes($this->app, '');
 
-    $this->app->make(Factory::class)->driver(ColesAustralia::IDENTIFIER)->find('7XX1000');
-})->throws(ApiConnectionFailedException::class, 'The connection to https://coles.com.au/shop/productdetails/7XX1000 has failed for the Coles driver');
+    $this->app->make(Factory::class)->driver(ColesAustralia::IDENTIFIER)->find('abc123');
+})->throws(ApiConnectionFailedException::class, 'The connection to https://coles.com.au/shop/productdetails/abc123 has failed for the Coles driver');
 
 it('can call `find` on the Coles driver and handle a successful response', function () {
     $html = file_get_contents(__DIR__.'/../fixtures/successful_response.html');
     getMockColes($this->app, $html);
 
-    $data = $this->app->make(Factory::class)->driver(ColesAustralia::IDENTIFIER)->find('257360');
+    $data = $this->app->make(Factory::class)->driver(ColesAustralia::IDENTIFIER)->find('john-west-tempters-tuna-in-olive-oil');
     unset($data->raw);
 
-    expect($this->app->make(Factory::class)->driver(ColesAustralia::IDENTIFIER)->find('257360'))
+    expect($this->app->make(Factory::class)->driver(ColesAustralia::IDENTIFIER)->find('john-west-tempters-tuna-in-olive-oil'))
         ->toBeInstanceOf(Product::class)
-        ->identifier->toBe('257360')
+        ->identifier->toBe('john-west-tempters-tuna-in-olive-oil')
         ->status->toEqual(Status::Available)
-        ->name->toBe('John West Tuna Olive Oil Blend 95G')
+        ->name->toBe('Tempters Tuna in Olive Oil')
         ->description->toBe('Succulent chunk style tuna in an olive oil blend.')
-        ->ingredients->toBe('Purse seine caught skipjack *tuna* (Katsuwonus pelamis) (65%), water, olive oil (10%), sunflower oil, salt. Contains fish.')
-        ->price->amount->toBe(2.7)
+        ->ingredients->toBe('Purse seine caught skipjack *tuna* (Katsuwonus pelamis) (65%), water, olive oil (10%), sunflower oil, salt. *Contains fish.*')
+        ->price->amount->toBe(1.35)
         ->unitAmount->unit->value->toBe('g')
         ->unitAmount->amount->toBe(95.0)
         ->unitPrice->unitAmount->unit->value->toBe('kg')
         ->unitPrice->unitAmount->amount->toBe(1.0)
-        ->unitPrice->price->amount->toBe(28.42)
+        ->unitPrice->price->amount->toBe(14.21)
+        ->unitPrice->price->currency->toBe(Currency::AUD)
         ->brand->name->toBe('John West')
         ->images->toBe([
             'https://cdn0.coles.media/content/wowproductimages/large/257360.jpg',
