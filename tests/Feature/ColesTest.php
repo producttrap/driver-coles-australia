@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
+use ProductTrap\ColesAustralia\ColesAustralia;
 use ProductTrap\Contracts\Factory;
 use ProductTrap\DTOs\Product;
+use ProductTrap\Enums\Currency;
 use ProductTrap\Enums\Status;
 use ProductTrap\Exceptions\ApiConnectionFailedException;
 use ProductTrap\Facades\ProductTrap as FacadesProductTrap;
 use ProductTrap\ProductTrap;
 use ProductTrap\Spider;
-use ProductTrap\ColesAustralia\ColesAustralia;
-use ProductTrap\Enums\Currency;
 
 function getMockColes($app, string $response): void
 {

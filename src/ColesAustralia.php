@@ -125,7 +125,7 @@ class ColesAustralia implements Driver
         // Images
         $images = [];
         $crawler->filter('.product-thumb-image-container img')->each(function ($node) use (&$images) {
-            $images[] = static::BASE_URI . str_replace('-th.', '.', $node->attr('src'));
+            $images[] = static::BASE_URI.str_replace('-th.', '.', $node->attr('src'));
         });
         $images = array_values(array_unique($images));
 
@@ -184,7 +184,7 @@ class ColesAustralia implements Driver
         );
 
         // URL
-        $url = 'https://shop.coles.com.au/a/national/product/' . $identifier;
+        $url = 'https://shop.coles.com.au/a/national/product/'.$identifier;
 
         $product = new Product([
             'identifier' => $identifier,
@@ -205,13 +205,12 @@ class ColesAustralia implements Driver
             ],
         ]);
 
-
         return $product;
     }
 
     public function url(string $identifier): string
     {
-        return self::BASE_URI . '/a/national/product/' . $identifier;
+        return self::BASE_URI.'/a/national/product/'.$identifier;
     }
 
     /**

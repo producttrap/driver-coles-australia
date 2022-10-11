@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ProductTrap\ColesAustralia;
 
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
-use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Support\ServiceProvider;
 use ProductTrap\Contracts\Factory;
 use ProductTrap\ProductTrap;

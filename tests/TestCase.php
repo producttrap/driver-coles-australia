@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace ProductTrap\ColesAustralia\Tests;
 
-use ProductTrap\ProductTrapServiceProvider;
 use ProductTrap\ColesAustralia\ColesAustraliaServiceProvider;
+use ProductTrap\ProductTrapServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
