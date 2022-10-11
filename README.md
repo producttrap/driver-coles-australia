@@ -23,7 +23,7 @@ composer require producttrap/driver-coles-australia
 use ProductTrap\ProductTrap;
 
 /** @var ProductTrap $productTrap */
-$coles = $productTrap->driver('coles');
+$coles = $productTrap->driver('coles_australia');
 
 $details = $coles->find('ABC123');
 echo $details->unitPrice->format(); // $24.56 / 1KG
