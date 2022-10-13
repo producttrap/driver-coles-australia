@@ -11,7 +11,6 @@ use ProductTrap\Contracts\Driver;
 use ProductTrap\DTOs\Brand;
 use ProductTrap\DTOs\Price;
 use ProductTrap\DTOs\Product;
-use ProductTrap\DTOs\Results;
 use ProductTrap\DTOs\UnitAmount;
 use ProductTrap\DTOs\UnitPrice;
 use ProductTrap\Enums\Currency;
@@ -211,15 +210,5 @@ class ColesAustralia implements Driver
     public function url(string $identifier): string
     {
         return self::BASE_URI.'/a/national/product/'.$identifier;
-    }
-
-    /**
-     * @param  array<string, mixed>  $parameters
-     *
-     * @throws ProductTrapDriverException
-     */
-    public function search(string $keywords, array $parameters = []): Results
-    {
-        return new Results();
     }
 }
